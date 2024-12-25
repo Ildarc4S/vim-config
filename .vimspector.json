@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "configurations": {
+        "C++: Launch": {
+            "adapter": "vscode-cpptools",
+            "configuration": {
+                "name": "Launch",
+                "type": "cppdbg",
+                "request": "launch",
+                "program": "${workspaceFolder}/main", 
+                "args": [],
+                "stopAtEntry": false,
+                "cwd": "${workspaceFolder}",
+                "environment": [],
+                "externalConsole": false,
+                "MIMode": "gdb",
+                "preLaunchTask": "build"
+            }
+        }
+    },
+    "tasks": {
+        "build": {
+            "type": "shell",
+            "command": "make", 
+            "args": ["all"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$g++"]
+        }
+    }
+}
+
