@@ -1,31 +1,29 @@
 call plug#begin()
 
 Plug 'morhetz/gruvbox'
-"Plug 'ycm-core/YouCompleteMe'
-"Plug 'Valloric/YouCompleteMe'
-"Plug 'ryanoasis/vim-devicons'
-"Plug 'mfussenegger/nvim-dap'
-"Plug 'nvim-neotest/nvim-nio'
-"Plug 'rcarriga/nvim-dap-ui'dd
 Plug 'puremourning/vimspector'
 Plug 'preservim/nerdtree'
-"Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'voldikss/vim-floaterm'
+Plug 'preservim/nerdcommenter'
 
 call plug#end()
 
 set clipboard=unnamedplus
+set noswapfile
 let mapleader=','
-noremap <Leader>y "+y
+vnoremap <Leader>y "+y
 noremap <Leader>p "+p
-
+set guicursor=n-v-c-i:block
 
 syntax on
 colorscheme gruvbox
 set background=dark
+set hlsearch
 set number
 set encoding=UTF-8
+set relativenumber
 
 set tabstop=2
 set softtabstop=2
@@ -33,6 +31,13 @@ set shiftwidth=2
 set expandtab
 set autoindent
 set colorcolumn=90
+nnoremap <Esc> :noh<CR>
+
+nnoremap <silent> <C-k> 10<C-w>+<CR>
+nnoremap <silent> <C-j> 10<C-w>-<CR>
+nnoremap <silent> <C-l> 10<C-w>><CR>
+nnoremap <silent> <C-h> 10<C-w><<CR>
+
 
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
@@ -56,7 +61,7 @@ nmap <leader>do :VimspectorShowOutput
 " inoremap <C-j> <Down>
 " inoremap <C-k> <Up>
 " inoremap <C-l> <Right>
-set encoding=utf-8
+
 set nobackup
 set nowritebackup
 set signcolumn=yes
@@ -93,4 +98,28 @@ function! ShowDocumentation()
 endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+"Float term
+let g:floaterm_keymap_new    = '<Leader>tf'
+let g:floaterm_keymap_toggle = '<Leader>t'
+let g:floaterm_keymap_kill   = '<Leader>tk'
+let g:floaterm_keymap_prev   = '<Leader>tp'
+let g:floaterm_keymap_next   = '<Leader>tn'
+
+let g:floaterm_gitcommit='floaterm'
+let g:floaterm_height = 0.6 " 60% высоты Vim
+let g:floaterm_width = 0.8 " 80% ширины Vim
+"let g:floaterm_wintype = 'float'
+
+function! RunMake()
+  execute 'FloatermNew --autoclose=0 make'
+endfunction
+
+nnoremap <leader>m :call RunMake()<CR>
+"
+
+"commentary
+nmap <C-_> <Plug>NERDCommenterToggle
+vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
+"
 
