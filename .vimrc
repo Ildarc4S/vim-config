@@ -9,7 +9,7 @@ Plug 'morhetz/gruvbox'
 "Plug 'rcarriga/nvim-dap-ui'dd
 Plug 'puremourning/vimspector'
 Plug 'preservim/nerdtree'
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -51,4 +51,46 @@ nmap <leader>dw :VimspectorWatch
 nmap <leader>do :VimspectorShowOutput
 "let g:vimspector_base_dir = expand('~/')
 
+" using h, j, k, l to move in insert mode
+" inoremap <C-h> <Left>
+" inoremap <C-j> <Down>
+" inoremap <C-k> <Up>
+" inoremap <C-l> <Right>
+set encoding=utf-8
+set nobackup
+set nowritebackup
+set signcolumn=yes
+
+nnoremap <silent> <C-I> :CocCommand document.toggleInlayHint<CR>
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
